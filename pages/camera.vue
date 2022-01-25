@@ -1,6 +1,8 @@
 <template>
   <div v-if="display" class="camera">
-    <video id="player" :srcObject.prop="stream" autoplay />
+    <div class="camera__video-container">
+      <video id="player" :srcObject.prop="stream" autoplay />
+    </div>
     <div class="camera__buttons">
       <button @click="takePhoto" v-text="`Take Photo`" />
       <button @click="printInfo" v-text="`console.log info`" />
@@ -109,6 +111,15 @@ video {
     & > button {
       color: white;
     }
+  }
+
+  &__video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    background-color: rgb(0,0,0);
+    height: 100%;
   }
 }
 </style>
