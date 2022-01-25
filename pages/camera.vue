@@ -1,8 +1,10 @@
 <template>
-  <div v-if="display">
+  <div v-if="display" class="camera">
     <video id="player" :srcObject.prop="stream" autoplay />
-    <button @click="takePhoto">Camera</button>
-    <button @click="printInfo">Info</button>
+    <div class="camera__buttons">
+      <button @click="takePhoto" v-text="`Take Photo`" />
+      <button @click="printInfo" v-text="`console.log info`" />
+    </div>
     <canvas
       v-show="showCanvas"
       id="canvas"
@@ -41,15 +43,20 @@ export default {
   },
   methods: {
     async setupPhoto() {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: {
-          facingMode: 'environment',
-          ...this.dimensions
-        }
-      })
-      this.stream = stream;
-      this.display = true;
+      console.log(navigator);
+      if(navigator && navigator.mediaDevices) {
+        const stream = await navigator
+          .mediaDevices
+          .getUserMedia({
+            audio: false,
+            video: {
+              facingMode: 'environment',
+              ...this.dimensions
+            }
+          });
+        this.stream = stream;
+        this.display = true;
+      }
     },
     printInfo() {
       console.table(this.stream.getVideoTracks()[0].getSettings());
@@ -85,5 +92,29 @@ export default {
   video, canvas, img {
     width: 100%;
     max-width: 100%;
+  }
+  video {
+    height: 100%;
+  }
+
+  .camera {
+    position: relative;
+
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: stretch;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5rem;
+      position: absolute;
+      background-color: rgba(0,0,0,0.8);
+
+      & > button {
+        color: white;
+      }
+    }
   }
 </style>
