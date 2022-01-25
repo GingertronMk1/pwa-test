@@ -2,7 +2,8 @@ html,
 body,
 #__nuxt,
 #__layout {
-  &, & > div {
+  &,
+  & > div {
     height: 100%;
     width: 100%;
 
